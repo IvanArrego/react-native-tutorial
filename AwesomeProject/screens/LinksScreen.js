@@ -1,14 +1,45 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import { AppRegistry, ScrollView, StyleSheet, Text, View, Button } from 'react-native';
+import { setRecoveryProps } from 'expo/build/ErrorRecovery/ErrorRecovery';
 
-export default function LinksScreen() {
-  return (
-      <View style={styles.container}>
-        <View style={{flex: 3, flexDirection: 'column', backgroundColor: '#fff', justifyContent: 'center'}}>
-          <Text style={{alignItems: 'center'}}>Hello</Text>
+export default class LinksScreen extends Component {
+  constructor(props){
+    super(props);
+    this.state ={
+      // numbers1 : [],
+    };
+    const luckyNumberz=[];
+    this.luckyNumber5 = this.luckyNumber5.bind(this);
+  }
+  
+  luckyNumber5(){
+    let luckyNumberz = [];
+    let num1 = Math.floor(Math.random() * Math.floor(69));
+    luckyNumberz.push(num1);
+    let num2 = Math.floor(Math.random() * Math.floor(69));
+    luckyNumberz.push(num2);
+    let num3 = Math.floor(Math.random() * Math.floor(69));
+    luckyNumberz.push(num3);
+    let num4 = Math.floor(Math.random() * Math.floor(69));
+    luckyNumberz.push(num4);
+    let num5 = Math.floor(Math.random() * Math.floor(69));
+    luckyNumberz.push(num5);
+    this.setState({numbers1 : luckyNumberz})
+    alert(luckyNumberz);
+  }    
+  render(){
+    return (
+        <View style={styles.container}>
+          <View style={{flex: 1, flexDirection: 'column', backgroundColor: '#fff', justifyContent: 'center', alignContent: 'center'}}>
+            <Text style={{alignItems: 'center'}}>Click for your numbers</Text>
+            <Button title="Press Here" onPress={this.luckyNumber5}></Button>
+          </View>
+          <View tyle={{flex: 1, flexDirection: 'column', backgroundColor: '#fff', justifyContent: 'center', alignContent: 'center'}}>
+            <Text style={{alignItems: 'center'}}>{this.state.numbers1}</Text>
+          </View>
         </View>
-      </View>
-  );
+    );
+  }
 }
 
 LinksScreen.navigationOptions = {
@@ -19,5 +50,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    alignContent: 'center'
   },
 });
