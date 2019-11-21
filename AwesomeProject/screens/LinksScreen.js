@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { AppRegistry, ScrollView, StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
+import { AppRegistry, ScrollView, StyleSheet, Text, View, Button } from 'react-native';
 import { setRecoveryProps } from 'expo/build/ErrorRecovery/ErrorRecovery';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class LinksScreen extends Component {
   constructor(props){
@@ -11,26 +12,48 @@ export default class LinksScreen extends Component {
     };
     const luckyNumberz=[];
     this.luckyNumber5 = this.luckyNumber5.bind(this);
+    // const STORAGE_KEY = '@save_name';
   }
+
+  // componentDidMount() {
+  // //   this.retrieveData()
+  // // }
   
-  _storeData = async () => {
+  saveNumbers(){
+    let numbers = this.luckyNumber5();
+    AsyncStorage.setItem('nums', numbers)
+  };
+  displayData = async () => {
     try {
-      await AsyncStorage.setItem('Numbers', yourNumbers);
-    } catch (error) {
-      // Error saving data
+      let number = await AsyncStorage.getItem('nums');
+      alert(number)
+    }
+    catch(error) {
+      alert(error);
     }
   };
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('Numbers');
-      if (value !== null) {
-        // We have data!!
-        alert(value);
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
+  
+  // save = async number => {
+  //   try {
+  //     await AsyncStorage.setItem(STORAGE_KEY, number)
+  //     alert('Data successfully saved!')
+  //     this.setState({ number })
+  //   } catch (e) {
+  //     alert('Failed to save name.')
+  //   }
+  // };
+
+  // retrieveData = async () => {
+  //   try {
+  //     const name = await AsyncStorage.getItem(STORAGE_KEY)
+
+  //     if (number !== null) {
+  //       this.setState({ number })
+  //     }
+  //   } catch (e) {
+  //     alert('Failed to load name.')
+  //   }
+  // };
 
   luckyNumber5(){
     let luckyNumberz = [];
@@ -52,6 +75,14 @@ export default class LinksScreen extends Component {
     this.setState({numbers1 : luckyNumberz});
     return luckyNumberz;
   }
+
+  // onClick = () => {
+  //   const onSave = this.save;
+  //   const {yourNumbers} = this.state;
+
+  //   if(!yourNumbers) return
+  //   onSave(luckyNumber5())
+  // }
       
   render(){
     return (
@@ -85,11 +116,13 @@ export default class LinksScreen extends Component {
           <View style={{  backgroundColor: '#fff'}}>
             <Text style={{textAlign: 'center'}}>Click for your numbers</Text>
             <Button title="Press Here" onPress={this.luckyNumber5}></Button>
+            <Button onPress ={()=>this.displayData()}>Your nums</Button>
           </View>
         </View>
     );
   }
 }
+
 
 LinksScreen.navigationOptions = {
   title: 'Numbers',
